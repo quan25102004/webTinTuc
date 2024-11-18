@@ -19,7 +19,7 @@ class Post extends Model
     ];
 
     protected $attributes=[
-        'view'=>false,
+        'view'=>0,
     ];
 
     public function category(){
@@ -30,6 +30,5 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
         // quan hệ tag với post là n - n 2 thằng đều phụ thuộc vào nhau
     }
-
     protected $dates = ['deleted_at'];
 }

@@ -206,7 +206,7 @@
                   </a>
                </div>
                <div class="post-content">
-                  <a href="/client/gaming.html" class="rt-post-cat-normal">{{$view->title}}</a>
+                  <a href="{{ route('home.chitiet',['id' => $view->id]) }}" class="rt-post-cat-normal">{{$view->title}}</a>
                   <h3 class="post-title">
                      <a href="{{ route('home.chitiet',['id' => $view->id]) }}">
                         {{$view->content}}

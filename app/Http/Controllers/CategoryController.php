@@ -12,22 +12,16 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        if ($search) {
-            $data = Category::query()
-                ->where('name', 'LIKE', '%' . $search . '%')
-                ->select('*')->paginate(5);
-        } else {
-            $data = Category::query()->latest('id')->paginate(5);
-        }
-        return view('admin.danhmuc', compact('data'));
+
+        return view('admin.danhmuc');
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.categories.add');
+        return view('admin.danhmuc');
+
     }
 
     /**
@@ -35,16 +29,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'max:100', Rule::unique('categories')],
-        ]);
-        try {
-            Category::query()->create($data);
-            return redirect()->route('categories.index')
-                ->with('succes', true);
-        } catch (\Throwable $th) {
-            return back()->with('succes', false);
-        }
+        return view('admin.danhmuc');
     }
 
     /**
@@ -52,7 +37,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('admin.categories.show', compact('category'));
+        return view('admin.danhmuc');
     }
 
     // /**
@@ -60,7 +45,8 @@ class CategoryController extends Controller
     //  */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        return view('admin.danhmuc');
+
     }
 
     // /**
@@ -68,16 +54,8 @@ class CategoryController extends Controller
     //  */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validate([
-            'name' => ['required', 'max:100', Rule::unique('categories')->ignore($category->id)],
-        ]);
-        try {
-            $category->update($data);
-            return back()->with('succes', true);
-        } catch (\Throwable $th) {
+        return view('admin.danhmuc');
 
-            return back()->with('succes', false)->with('error', $th->getMessage());
-        }
     }
 
     // /**
@@ -85,23 +63,16 @@ class CategoryController extends Controller
     //  */
     public function destroy(Category $category)
     {
-        try {
-            $category->delete();
-            return back()->with('succes', true);
-        } catch (\Throwable $th) {
+        return view('admin.danhmuc');
 
-            return back()->with('succes', false)->with('error', $th->getMessage());
-        }
     }
     public function trash()
     {
-        $trashs = Category::onlyTrashed()->latest('id')->paginate('5');
-        return view('admin.categories.trash', compact('trashs'));
+        return view('admin.danhmuc');
+
     }
     public function restore($category)
     {
-        $category = Category::onlyTrashed()->findOrFail($category);
-        $category->restore();
-        return redirect()->route('categories.trash')->with('success', true);
+        return view('admin.danhmuc');
     }
 }

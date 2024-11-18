@@ -98,7 +98,7 @@
                                         @endif
                                     @else
                                         <li class="nav-item">
-                                            <a style="color: #9d9d9d" class="nav-link" href="{{ route('posts.index') }}"
+                                            <a style="color: #9d9d9d" class="nav-link" href="{{ asset('admin/dashboard') }}"
                                                 style="font-size: 50px"><svg xmlns="http://www.w3.org/2000/svg"
                                                     width="16" height="16" fill="currentColor"
                                                     class="bi bi-person-lines-fill" viewBox="0 0 16 16">

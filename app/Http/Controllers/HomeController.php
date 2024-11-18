@@ -49,7 +49,7 @@ class HomeController extends Controller
         // dd($luotXemCao->toArray());
 
         $newSucKhoe = Post::query()
-            ->select('posts.created_at', 'c.name', 'posts.title', 'image', 'view', 'posts.id')
+            ->select('posts.created_at', 'c.name', 'posts.title', 'image', 'view', 'posts.id','category_id')
             ->join('categories as c', 'c.id', '=', 'posts.category_id')
             ->where('category_id', 12)
             ->orderBy('created_at', 'desc')->limit(1)->get();
@@ -139,6 +139,8 @@ class HomeController extends Controller
         
 
         $category_id = $post->category_id;
+        // dd($category_id);
+
         $luotXemCao = Post::query()
             ->select('posts.created_at', 'c.name', 'posts.title', 'posts.image', 'posts.view', 'posts.id')
             ->join('categories as c', 'c.id', '=', 'posts.category_id')

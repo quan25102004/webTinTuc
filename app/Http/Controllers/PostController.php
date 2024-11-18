@@ -18,6 +18,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $categories = Category::pluck('name', 'id')->all();
+        $tags = Tag::pluck('name', 'id')->all();
         $search = $request->input('search');
         if ($search) {
             $data = Post::with(['category', 'tag'])
@@ -27,8 +29,8 @@ class PostController extends Controller
         } else {
             $data = Post::with(['category', 'tag'])->latest('id')->paginate(5);
         }
-        //'category','tag' là tên hàm trong model
-        return view('admin.baiviet', compact('data'));
+        // dd($tag);
+        return view('admin.baiviet', compact('data','categories', 'tags'));
     }
 
     /**
@@ -36,10 +38,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $category = Category::pluck('name', 'id')->all();
-        $tag = Tag::pluck('name', 'id')->all();
-
-        return view('admin.posts.add', compact('category', 'tag'));
+        return view('admin.baiviet');
     }
 
     /**
@@ -47,28 +46,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => ['required', 'max:100', Rule::unique('posts')],
-            'content' => 'required|max:10000',
-            'category_id' => 'required',
-            'image' => 'required|image|max:2048'
-        ]);
-        try {
-            if ($request->hasFile('image')) {
-                $data['image'] = Storage::put('image', $request->file('image'));
-            }
-            $post = Post::query()->create($data);
-
-            $post->tag()->attach($request->tags);
-            // dd($dataPost);
-            return redirect()->route('posts.index')
-                ->with('succes', true);
-        } catch (\Throwable $th) {
-            if (!empty($data['image']) && storage::exists($data['image'])) {
-                Storage::delete($data['image']);
-            }
-            return back()->with('succes', false);
-        }
+        return view('admin.baiviet');
     }
 
     /**
@@ -76,7 +54,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.posts.show', compact('post'));
+        return view('admin.baiviet');
+
     }
 
     /**
@@ -153,16 +132,11 @@ class PostController extends Controller
 
     public function trash()
     {
-        $trashs = Post::onlyTrashed()->latest('id')->paginate('5');
-        // dd($trash);
-        return view('admin.posts.trash', compact('trashs'));
+        return view('admin.baiviet');
     }
 
     public function restore($post)
     {
-        $post = Post::onlyTrashed()->findOrFail($post);
-        $post->restore();
-
-        return redirect()->route('posts.trash')->with('success', true);
+        return view('admin.baiviet');
     }
 }

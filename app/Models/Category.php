@@ -13,7 +13,7 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
-
+    protected $dates = ['deleted_at'];
     public function post(){
         return $this->hasOne(Post::class);
         // quan hệ category với post là 1 - 1 dùng hasOne
